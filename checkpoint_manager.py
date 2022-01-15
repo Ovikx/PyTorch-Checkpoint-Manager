@@ -2,7 +2,7 @@ import os
 import torch
 import time
 
-# TODO: self.purge() isn't deleting the right things because the sorting algorithm isn't helping
+# TODO: loading models from directory if they exist
 
 class CheckpointManager:
     def __init__(self, assets, directory, file_name, maximum=3, file_format='pt'):
@@ -31,10 +31,16 @@ class CheckpointManager:
         self.purge()
         
     def purge(self):
-        dir_contents = sorted(os.listdir(self.directory), reverse=True)
+        dir_contents = os.listdir(self.directory)
+        indices = sorted([self.index_from_file(v) for v in dir_contents])
 
-        if len(dir_contents) > self.maximum:
-            removals = dir_contents[self.maximum:]
+        if len(indices) > self.maximum:
+            removals = []
+            for index in indices[:len(indices)-self.maximum]:
+                for directory in dir_contents:
+                    if f'{index}.{self.file_format}' in directory:
+                        removals.append(directory)
+
             for elem in removals:
                 os.remove(f'{self.directory}{elem}')
 
