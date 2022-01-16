@@ -3,6 +3,16 @@ import torch
 
 class CheckpointManager:
     def __init__(self, assets, directory, file_name, maximum=3, file_format='pt'):
+        '''
+        Constructs the CheckpointManager
+
+        Args:
+            assets : Dictionary, the states you want to save or load
+            directory : String, the path the states will be saved to or loaded from
+            file_name : String, the name of the saved file
+            maximum : Integer, the maximum number of saves to keep
+            file_format : String, the file format of the saved file
+        '''
         self.assets = assets
         self.directory = directory
         if self.directory[-1] != '/':
@@ -15,6 +25,12 @@ class CheckpointManager:
         return int(file_name[len(self.file_name)+1:-(len(self.file_format)+1)])
     
     def save(self, epoch=None):
+        '''
+        Saves the asset dictionary
+
+        Args:
+            epoch : Integer, a custom index to concatenate to the end of the file name (intended for epoch numbers)
+        '''
         dir_contents = os.listdir(self.directory)
 
         if len(dir_contents) > 0 and epoch == None:
@@ -39,6 +55,9 @@ class CheckpointManager:
                         os.remove(f'{self.directory}{directory}')
     
     def load(self):
+        '''
+        Returns the state dictionary of the highest indexed file in the save directory. Returns constructor asset input if no such file exists.
+        '''
         dir_contents = os.listdir(self.directory)
 
         for directory in dir_contents:

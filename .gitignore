@@ -1,2 +1,4 @@
 training_checkpoints/
 *__pycache__/
+dist/
+*pytorch_ckpt_manager.egg-info/
