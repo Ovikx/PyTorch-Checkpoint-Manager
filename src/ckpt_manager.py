@@ -33,14 +33,10 @@ class CheckpointManager:
     
         if len(dir_contents) > self.maximum:
             indices = sorted([self.index_from_file(v) for v in dir_contents])
-            removals = []
             for index in indices[:len(indices)-self.maximum]:
                 for directory in dir_contents:
                     if f'{index}.{self.file_format}' in directory:
-                        removals.append(directory)
-
-            for elem in removals:
-                os.remove(f'{self.directory}{elem}')
+                        os.remove(f'{self.directory}{directory}')
     
     def load(self):
         dir_contents = os.listdir(self.directory)
