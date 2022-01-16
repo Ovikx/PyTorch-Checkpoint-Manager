@@ -2,6 +2,13 @@
 
 A custom PyTorch checkpoint manager inspired by [TensorFlow's CheckpointManager](!https://www.tensorflow.org/api_docs/python/tf/train/CheckpointManager). Specify the necessary arguments in the constructor and then use the `CheckpointManager.save()` and `CheckpointManager.load()` methods to save/load models. Functionality is similar to that of `torch.save()` and `torch.load()`.
 
+# Installation
+
+Install via pip:
+```cmd
+pip install pytorch-ckpt-manager
+```
+
 # Example usage
 
 The following is a simple convolutional network for demonstrating the checkpoint manager's functionality.
